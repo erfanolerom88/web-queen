@@ -1,0 +1,9 @@
+node_modules
+.pnpm
+.svelte-kit
+.vite
+/dist
+/build
+/.turbo
+.DS_Store
+*.log

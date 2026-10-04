@@ -1,0 +1,40 @@
+:root {
+  --color-bg: oklch(12% 0.01 260);
+  --color-surface: oklch(17% 0.015 260);
+  --color-surface-raised: oklch(21% 0.015 260);
+  --color-border: oklch(30% 0.02 260);
+  --color-text-muted: oklch(55% 0.02 260);
+  --color-text: oklch(92% 0.01 260);
+
+  --color-accent: oklch(65% 0.18 250);
+  --color-accent-hover: oklch(70% 0.18 250);
+  --color-accent-fg: oklch(98% 0.01 250);
+
+  --shadow-sm: 0 8px 18px rgba(7, 10, 18, 0.22);
+  --shadow-md: 0 14px 28px rgba(7, 10, 18, 0.3);
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+
+  --font-sans: system-ui, -apple-system, sans-serif;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-4xl: 2.25rem;
+  --leading-tight: 1.25;
+  --leading-normal: 1.6;
+  --weight-normal: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+}
