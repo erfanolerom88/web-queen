@@ -4,11 +4,15 @@ export type ToastMessage = {
   id: number;
   title: string;
   message: string;
+  variant: ToastVariant;
 };
+
+export type ToastVariant = 'info' | 'success' | 'warning';
 
 export type ToastOptions = {
   title?: string;
   duration?: number;
+  variant?: ToastVariant;
 };
 
 export const toastStore = writable<ToastMessage[]>([]);
@@ -21,7 +25,8 @@ export function showToast(message: string, options: ToastOptions = {}) {
   const toast = {
     id,
     title: options.title ?? 'Notification',
-    message
+    message,
+    variant: options.variant ?? 'info'
   };
 
   toastStore.update((toasts) => [...toasts, toast]);

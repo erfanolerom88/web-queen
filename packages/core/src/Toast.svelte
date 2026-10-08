@@ -5,7 +5,10 @@
 <aside class="toast-region" aria-label="Notifications">
   <div class="toast-stack" aria-live="polite" aria-relevant="additions">
     {#each $toastStore as toast (toast.id)}
-      <article class="toast" role="status">
+      <article
+        class="toast toast--{toast.variant}"
+        role={toast.variant === 'warning' ? 'alert' : 'status'}
+      >
         <span class="toast__accent" aria-hidden="true"></span>
         <div class="toast__content">
           <p class="toast__title">{toast.title}</p>
@@ -42,13 +45,14 @@
   }
 
   .toast {
+    --toast-accent: var(--color-accent);
     display: flex;
     align-items: flex-start;
     gap: var(--space-3);
     padding: var(--space-4);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
-    border-left: 3px solid var(--color-accent);
+    border-left: 3px solid var(--toast-accent);
     background: var(--color-surface-raised);
     color: var(--color-text);
     box-shadow: var(--shadow-md);
@@ -62,8 +66,11 @@
     height: 0.5rem;
     margin-top: 0.35rem;
     border-radius: 50%;
-    background: var(--color-accent);
+    background: var(--toast-accent);
   }
+
+  .toast--success { --toast-accent: var(--color-success); }
+  .toast--warning { --toast-accent: var(--color-warning); }
 
   .toast__content {
     flex: 1;

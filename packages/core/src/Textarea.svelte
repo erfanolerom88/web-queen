@@ -82,8 +82,8 @@
   }
 
   .field__textarea.error {
-    border-color: oklch(62% 0.18 20);
-    box-shadow: 0 0 0 3px oklch(62% 0.18 20 / 0.12);
+    border-color: var(--color-danger);
+    box-shadow: 0 0 0 3px color-mix(in oklch, var(--color-danger) 18%, transparent);
   }
 
   .field__message {
@@ -93,6 +93,6 @@
   }
 
   .field__message--error {
-    color: oklch(62% 0.18 20);
+    color: var(--color-danger);
   }
 </style>

@@ -5,6 +5,8 @@ export const tokens = {
     primary: '#7c9cff',
     secondary: '#9ce3d4',
     accent: '#f7b267',
+    success: '#59b98b',
+    warning: '#e6a23c',
     text: '#edf2ff',
     muted: '#aeb9d1',
     border: '#2a3b5d',
@@ -27,6 +29,17 @@ export const tokens = {
   shadows: {
     sm: '0 8px 18px rgba(7, 10, 18, 0.22)',
     md: '0 14px 28px rgba(7, 10, 18, 0.3)'
+  },
+  motion: {
+    duration: {
+      fast: 120,
+      enter: 160,
+      modal: 190
+    },
+    easing: {
+      standard: 'cubic-bezier(0.2, 0, 0, 1)',
+      emphasized: 'cubic-bezier(0.16, 1, 0.3, 1)'
+    }
   }
 } as const;
 
@@ -37,6 +50,8 @@ export const themeCss = `
     --color-primary: ${tokens.colors.primary};
     --color-secondary: ${tokens.colors.secondary};
     --color-accent: ${tokens.colors.accent};
+    --color-success: ${tokens.colors.success};
+    --color-warning: ${tokens.colors.warning};
     --color-text: ${tokens.colors.text};
     --color-muted: ${tokens.colors.muted};
     --color-border: ${tokens.colors.border};
@@ -53,6 +68,11 @@ export const themeCss = `
     --radius-xl: ${tokens.radii.xl};
     --shadow-sm: ${tokens.shadows.sm};
     --shadow-md: ${tokens.shadows.md};
+    --motion-duration-fast: ${tokens.motion.duration.fast}ms;
+    --motion-duration-enter: ${tokens.motion.duration.enter}ms;
+    --motion-duration-modal: ${tokens.motion.duration.modal}ms;
+    --motion-easing-standard: ${tokens.motion.easing.standard};
+    --motion-easing-emphasized: ${tokens.motion.easing.emphasized};
   }
 `;
 
