@@ -4,7 +4,8 @@ import type { ComponentMeta } from './meta.types';
 export const meta = {
   name: 'Input',
   category: 'form',
-  description: 'Token-driven text field with variants, sizes, validation states and motion presets.',
+  description:
+    'Token-driven text field with variants, sizes, validation states and motion presets.',
   props: {
     variant: { type: 'InputVariant', default: 'default' },
     size: { type: 'InputSize', default: 'md' },
