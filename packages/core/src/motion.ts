@@ -1,5 +1,6 @@
 import { cubicOut } from 'svelte/easing';
-import { fade, fly, scale } from 'svelte/transition';
+import { fly } from 'svelte/transition';
+import type { TransitionConfig } from 'svelte/transition';
 import { tokens } from '@web-queen/tokens';
 
 export const motion = tokens.motion;
@@ -10,34 +11,23 @@ function transitionDuration(duration: number) {
     : duration;
 }
 
-export function modalBackdropTransition(node: Element) {
-  return fade(node, {
-    duration: transitionDuration(motion.duration.modal),
-    easing: cubicOut
-  });
+type TransitionFn<P> = (node: Element, params?: P) => TransitionConfig;
+
+/** Wraps a Svelte transition so it shares the reduce-motion duration handling and easing. */
+export function withMotion<P extends Record<string, unknown>>(
+  fn: TransitionFn<P>,
+  duration: number,
+  extraParams?: Omit<P, 'duration'>
+): TransitionFn<P> {
+  return (node: Element, params?: P) =>
+    fn(node, {
+      ...extraParams,
+      ...params,
+      duration: transitionDuration(duration),
+      easing: cubicOut
+    } as unknown as P);
 }
 
-export function modalScaleTransition(node: Element) {
-  return scale(node, {
-    duration: transitionDuration(motion.duration.modal),
-    easing: cubicOut,
-    start: 0.96
-  });
-}
+export const dropdownTransition = withMotion(fly, motion.duration.enter, { y: -4 });
 
-export function dropdownTransition(node: Element) {
-  return fly(node, {
-    duration: transitionDuration(motion.duration.enter),
-    easing: cubicOut,
-    y: -4
-  });
-}
-
-export function tooltipTransition(node: Element) {
-  return fly(node, {
-    duration: transitionDuration(motion.duration.fast),
-    easing: cubicOut,
-    y: 4,
-    opacity: 0
-  });
-}
+export const tooltipTransition = withMotion(fly, motion.duration.fast, { y: 4, opacity: 0 });

@@ -31,8 +31,10 @@ export function showToast(message: string, options: ToastOptions = {}) {
 
   toastStore.update((toasts) => [...toasts, toast]);
 
-  if ((options.duration ?? 4500) > 0) {
-    const timeoutId = setTimeout(() => dismissToast(id), options.duration ?? 4500);
+  const duration = options.duration ?? 4500;
+
+  if (duration > 0) {
+    const timeoutId = setTimeout(() => dismissToast(id), duration);
     timeoutIds.set(id, timeoutId);
   }
 

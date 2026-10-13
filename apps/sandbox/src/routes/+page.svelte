@@ -17,6 +17,14 @@
   let submitComplete = false;
   let formErrors: Record<string, string> = {};
   let selectedAction = 'Choose an account action';
+  let variantDefault = 'design-system';
+  let variantOutline = 'internal-tools';
+  let variantGhost = '';
+  let sizeSmall = '';
+  let sizeMedium = 'solo';
+  let sizeLarge = '';
+  let stateError = '';
+  let stateSuccess = 'small-team';
 
   onMount(() => {
     lightTheme = initializeTheme() === 'light';
@@ -167,6 +175,43 @@
       error={formErrors.launchMode ?? ''}
       fullWidth
     />
+
+    <fieldset class="settings-group">
+      <legend class="settings-group__title">Select variants</legend>
+      <Select variant="default" label="Default" bind:value={variantDefault} options={sizeOptions} placeholder="Default variant" fullWidth />
+      <Select variant="outline" label="Outline" bind:value={variantOutline} options={sizeOptions} placeholder="Outline variant" fullWidth />
+      <Select variant="ghost" label="Ghost" bind:value={variantGhost} options={sizeOptions} placeholder="Ghost variant" fullWidth />
+    </fieldset>
+
+    <fieldset class="settings-group">
+      <legend class="settings-group__title">Select sizes</legend>
+      <Select size="sm" label="Small" bind:value={sizeSmall} options={sizeOptions} placeholder="Small" fullWidth />
+      <Select size="md" label="Medium" bind:value={sizeMedium} options={sizeOptions} placeholder="Medium" fullWidth />
+      <Select size="lg" label="Large" bind:value={sizeLarge} options={sizeOptions} placeholder="Large" fullWidth />
+    </fieldset>
+
+    <fieldset class="settings-group">
+      <legend class="settings-group__title">Select states</legend>
+      <Select
+        status="error"
+        label="Error state"
+        bind:value={stateError}
+        options={sizeOptions}
+        placeholder="Pick a team size"
+        errorMessage="Choose a team size to continue."
+        fullWidth
+      />
+      <Select
+        status="success"
+        label="Success state"
+        bind:value={stateSuccess}
+        options={sizeOptions}
+        placeholder="Pick a team size"
+        hint="This selection looks good."
+        fullWidth
+      />
+      <Select disabled label="Disabled" options={sizeOptions} placeholder="Unavailable" fullWidth />
+    </fieldset>
 
     <fieldset class="settings-group">
       <legend class="settings-group__title">Project settings</legend>

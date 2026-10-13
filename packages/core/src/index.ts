@@ -1,13 +1,40 @@
 export { default as Button } from './Button.svelte';
+export type { ButtonProps, ButtonSize, ButtonType, ButtonVariant } from './button';
 export { default as Card } from './Card.svelte';
 export { default as Checkbox } from './Checkbox.svelte';
+export { default as Dialog } from './Dialog.svelte';
+export { dialogMeta } from './Dialog.meta';
+export type {
+  DialogComponentProps,
+  DialogEvents,
+  DialogProps,
+  DialogSize,
+  DialogStatus,
+  DialogVariant
+} from './dialog.types';
 export { default as Dropdown } from './Dropdown.svelte';
 export { default as DropdownTrigger } from './DropdownTrigger.svelte';
 export { default as DropdownItem } from './DropdownItem.svelte';
 export { default as Input } from './Input.svelte';
-export { default as Modal } from './Modal.svelte';
-export { dropdownTransition, modalBackdropTransition, modalScaleTransition, motion, tooltipTransition } from './motion';
+export { meta as inputMeta } from './Input.meta';
+export type {
+  InputAnimation,
+  InputProps,
+  InputSize,
+  InputStatus,
+  InputType,
+  InputVariant
+} from './input.types';
+export { dropdownTransition, motion, tooltipTransition } from './motion';
 export { default as Select } from './Select.svelte';
+export { meta as selectMeta } from './Select.meta';
+export type {
+  SelectOption,
+  SelectProps,
+  SelectSize,
+  SelectStatus,
+  SelectVariant
+} from './select.types';
 export { default as Switch } from './Switch.svelte';
 export { default as Tab } from './Tab.svelte';
 export { default as TabList } from './TabList.svelte';
@@ -24,9 +51,3 @@ export { initializeTheme, setTheme, themeStore } from './theme';
 export type { Theme } from './theme';
 export { validateValues } from './validation';
 export type { ValidationErrors, ValidationFormat, ValidationRule } from './validation';
-
-export const corePackage = 'core';
-
-export function makeGreeting(name: string) {
-  return `Hello, ${name}!`;
-}

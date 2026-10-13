@@ -1,0 +1,5 @@
+@import 'tailwindcss';
+@import '@web-queen/tokens/tokens.css';
+
+@source '../../../packages/core/src/**/*.{svelte,ts}';
+@source '../../../packages/motion/src/**/*.{svelte,ts}';

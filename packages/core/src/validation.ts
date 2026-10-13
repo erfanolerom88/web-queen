@@ -19,7 +19,10 @@ export function validateValues<T extends Record<string, unknown>>(
 ): ValidationErrors<T> {
   const errors: ValidationErrors<T> = {};
 
-  for (const [field, rule] of Object.entries(rules) as [keyof T, ValidationRule][]) {
+  for (const field of Object.keys(rules) as (keyof T)[]) {
+    const rule = rules[field];
+    if (!rule) continue;
+
     const value = values[field];
     const textValue = value == null ? '' : String(value).trim();
 
@@ -28,7 +31,9 @@ export function validateValues<T extends Record<string, unknown>>(
       continue;
     }
 
-    if (rule.format && textValue && !formatValidators[rule.format](textValue)) {
+    const formatValidator = rule.format ? formatValidators[rule.format] : undefined;
+
+    if (formatValidator && textValue && !formatValidator(textValue)) {
       errors[field] = rule.formatMessage ?? `Enter a valid ${rule.format}.`;
     }
   }

@@ -30,6 +30,19 @@ export type TimelineOptions = {
   scrollTrigger?: ScrollTrigger.Vars;
 };
 
+export type TimelineApi = {
+  from: (...args: Parameters<gsap.core.Timeline['from']>) => TimelineApi;
+  to: (...args: Parameters<gsap.core.Timeline['to']>) => TimelineApi;
+  fromTo: (...args: Parameters<gsap.core.Timeline['fromTo']>) => TimelineApi;
+  play: () => TimelineApi;
+  pause: () => TimelineApi;
+  kill: () => void;
+  gsap: gsap.core.Timeline | null;
+};
+
+/** Svelte action alias from the pipeline brief: `use:gsapAnimate={config}` */
+export type GsapAnimateConfig = MotionConfig;
+
 // ─── Reduced-motion ───────────────────────────────────────────────────────────
 
 function prefersReducedMotion(): boolean {
@@ -39,12 +52,34 @@ function prefersReducedMotion(): boolean {
   );
 }
 
-// ─── useGsap ──────────────────────────────────────────────────────────────────
+function identityTimeline(): TimelineApi {
+  const stub: TimelineApi = {
+    from: () => stub,
+    to: () => stub,
+    fromTo: () => stub,
+    play: () => stub,
+    pause: () => stub,
+    kill: () => {},
+    gsap: null
+  };
+  return stub;
+}
+
+// ─── use:gsapAnimate / useGsap ────────────────────────────────────────────────
+
+export function gsapAnimate(node: Element, config: MotionConfig = {}) {
+  return useGsap(node, config);
+}
 
 export function useGsap(node: Element, config: MotionConfig = {}) {
   const {
-    x = 0, y = 18, opacity = 0, scale = 1,
-    duration = 0.5, delay = 0, ease = 'power2.out',
+    x = 0,
+    y = 18,
+    opacity = 0,
+    scale = 1,
+    duration = 0.5,
+    delay = 0,
+    ease = 'power2.out'
   } = config;
 
   if (prefersReducedMotion()) {
@@ -59,58 +94,48 @@ export function useGsap(node: Element, config: MotionConfig = {}) {
     { opacity: 1, x: 0, y: 0, scale: 1, duration, delay, ease }
   );
 
-  return { destroy() { tween.kill(); } };
-}
-
-// ─── revealIn ─────────────────────────────────────────────────────────────────
-
-export function revealIn(node: Element, config: MotionConfig = {}) {
-  const {
-    x = 0, y = 24, opacity = 0, scale = 1,
-    duration = 0.6, delay = 0, ease = 'power2.out',
-  } = config;
-
-  if (prefersReducedMotion()) {
-    (node as HTMLElement).style.opacity = '1';
-    (node as HTMLElement).style.transform = 'none';
-    return {};
-  }
-
-  const tween = gsap.fromTo(
-    node,
-    { opacity, x, y, scale },
-    {
-      opacity: 1, x: 0, y: 0, scale: 1, duration, delay, ease,
-      scrollTrigger: {
-        trigger: node,
-        start: 'top 88%',
-        toggleActions: 'play none none none',
-      },
-    }
-  );
-
   return {
     destroy() {
-      tween.scrollTrigger?.kill();
       tween.kill();
-    },
+    }
   };
 }
 
-// ─── staggerIn ────────────────────────────────────────────────────────────────
+// ─── ScrollTrigger presets ────────────────────────────────────────────────────
 
-export function staggerIn(node: Element, config: StaggerConfig = {}) {
+type ScrollRevealOptions = MotionConfig & {
+  /** Element(s) the tween applies to. */
+  targets: Element | Element[];
+  /** Stagger between targets; `undefined` disables staggering. */
+  stagger?: number;
+};
+
+/**
+ * Shared ScrollTrigger reveal used by `revealIn` and `staggerIn`: applies the
+ * same reduced-motion fallback and `top 88%` trigger, differing only in the
+ * targets and optional stagger.
+ */
+function runScrollReveal(
+  node: Element,
+  targets: Element | Element[],
+  config: Omit<ScrollRevealOptions, 'targets'> = {}
+) {
   const {
-    x = 0, y = 18, opacity = 0, scale = 1,
-    duration = 0.5, delay = 0, stagger = 0.08,
-    ease = 'power2.out', selector = ':scope > *',
+    x = 0,
+    y = 24,
+    opacity = 0,
+    scale = 1,
+    duration = 0.6,
+    delay = 0,
+    ease = 'power2.out',
+    stagger
   } = config;
 
-  const children = Array.from(node.querySelectorAll(selector));
-  if (!children.length) return {};
+  const elements = Array.isArray(targets) ? targets : [targets];
+  if (!elements.length) return {};
 
   if (prefersReducedMotion()) {
-    children.forEach((el) => {
+    elements.forEach((el) => {
       (el as HTMLElement).style.opacity = '1';
       (el as HTMLElement).style.transform = 'none';
     });
@@ -118,15 +143,22 @@ export function staggerIn(node: Element, config: StaggerConfig = {}) {
   }
 
   const tween = gsap.fromTo(
-    children,
+    elements,
     { opacity, x, y, scale },
     {
-      opacity: 1, x: 0, y: 0, scale: 1, duration, delay, ease, stagger,
+      opacity: 1,
+      x: 0,
+      y: 0,
+      scale: 1,
+      duration,
+      delay,
+      ease,
+      ...(stagger === undefined ? {} : { stagger }),
       scrollTrigger: {
         trigger: node,
         start: 'top 88%',
-        toggleActions: 'play none none none',
-      },
+        toggleActions: 'play none none none'
+      }
     }
   );
 
@@ -134,11 +166,21 @@ export function staggerIn(node: Element, config: StaggerConfig = {}) {
     destroy() {
       tween.scrollTrigger?.kill();
       tween.kill();
-    },
+    }
   };
 }
 
-// ─── parallax ─────────────────────────────────────────────────────────────────
+export function revealIn(node: Element, config: MotionConfig = {}) {
+  const { y = 24, duration = 0.6, ...rest } = config;
+  return runScrollReveal(node, node, { ...rest, y, duration });
+}
+
+export function staggerIn(node: Element, config: StaggerConfig = {}) {
+  const { y = 18, duration = 0.5, stagger = 0.08, selector = ':scope > *', ...rest } = config;
+  const children = Array.from(node.querySelectorAll(selector));
+  if (!children.length) return {};
+  return runScrollReveal(node, children, { ...rest, y, duration, stagger });
+}
 
 export function parallax(node: Element, config: ParallaxConfig = {}) {
   const { speed = 0.4, scrub = true } = config;
@@ -152,41 +194,62 @@ export function parallax(node: Element, config: ParallaxConfig = {}) {
       trigger: node,
       start: 'top bottom',
       end: 'bottom top',
-      scrub,
-    },
+      scrub
+    }
   });
 
   return {
     destroy() {
       tween.scrollTrigger?.kill();
       tween.kill();
-    },
+    }
   };
 }
 
+export const scrollTriggerPresets = {
+  'fade-in': revealIn,
+  'stagger-in': staggerIn,
+  parallax
+} as const;
+
 // ─── createTimeline ───────────────────────────────────────────────────────────
 
-export function createTimeline(options: TimelineOptions = {}) {
+export function createTimeline(options: TimelineOptions = {}): TimelineApi {
   if (prefersReducedMotion()) {
-    const stub: any = { from: () => stub, to: () => stub, fromTo: () => stub, play: () => stub, pause: () => stub, kill: () => {}, gsap: null };
-    return stub;
+    return identityTimeline();
   }
 
   const tl = gsap.timeline({
     defaults: { ease: 'power2.out', duration: 0.5, ...options.defaults },
-    scrollTrigger: options.scrollTrigger,
+    scrollTrigger: options.scrollTrigger
   });
 
-  const api = {
-    from:   (...args: Parameters<typeof tl.from>)   => { tl.from(...args);   return api; },
-    to:     (...args: Parameters<typeof tl.to>)     => { tl.to(...args);     return api; },
-    fromTo: (...args: Parameters<typeof tl.fromTo>) => { tl.fromTo(...args); return api; },
-    play:   () => { tl.play();  return api; },
-    pause:  () => { tl.pause(); return api; },
-    kill:   () => tl.kill(),
-    gsap:   tl,
+  const api: TimelineApi = {
+    from: (...args) => {
+      tl.from(...args);
+      return api;
+    },
+    to: (...args) => {
+      tl.to(...args);
+      return api;
+    },
+    fromTo: (...args) => {
+      tl.fromTo(...args);
+      return api;
+    },
+    play: () => {
+      tl.play();
+      return api;
+    },
+    pause: () => {
+      tl.pause();
+      return api;
+    },
+    kill: () => {
+      tl.kill();
+    },
+    gsap: tl
   };
 
-  return api;vvvvvvfg gy gyj gy gygy yygyyy yyyy         y
+  return api;
 }
-ر

@@ -7,9 +7,9 @@
     Dropdown,
     DropdownItem,
     DropdownTrigger,
+    Dialog,
     initializeTheme,
     Input,
-    Modal,
     Select,
     setTheme,
     Switch,
@@ -72,13 +72,18 @@
 </svelte:head>
 
 <Toast />
-<Modal bind:open={deleteDialogOpen} title="Delete Project">
-  <p>This action will permanently delete the project and its associated settings. This cannot be undone.</p>
-  <svelte:fragment slot="footer">
+<Dialog
+  bind:open={deleteDialogOpen}
+  variant="alert"
+  size="sm"
+  title="Delete Project"
+  description="This action will permanently delete the project and its associated settings. This cannot be undone."
+>
+  {#snippet footer()}
     <Button variant="secondary" on:click={() => (deleteDialogOpen = false)}>Cancel</Button>
     <Button variant="primary" on:click={deleteProject}>Delete project</Button>
-  </svelte:fragment>
-</Modal>
+  {/snippet}
+</Dialog>
 
 <main class="docs-page">
   <div style="max-width: 720px; margin: 0 auto;">
