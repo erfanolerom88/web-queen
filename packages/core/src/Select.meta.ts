@@ -23,8 +23,7 @@ export const meta = {
     error: { type: 'string', default: '', deprecated: 'Use `errorMessage` with `status="error"`.' },
     helperText: { type: 'string', default: '', deprecated: 'Use `hint`.' }
   },
-  bindings: ['value'],
-  slots: ['default']
+  bindings: ['value']
 } satisfies ComponentMeta;
 
 export type { SelectProps };
