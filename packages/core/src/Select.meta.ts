@@ -1,4 +1,5 @@
 import type { SelectProps } from './select.types';
+import type { ComponentMeta } from './meta.types';
 
 /** Companion metadata for the `Select` component. */
 export const meta = {
@@ -24,13 +25,6 @@ export const meta = {
   },
   bindings: ['value'],
   slots: ['default']
-} satisfies {
-  name: string;
-  category: string;
-  description: string;
-  props: Record<string, unknown>;
-  bindings: string[];
-  slots: string[];
-};
+} satisfies ComponentMeta;
 
 export type { SelectProps };

@@ -1,3 +1,4 @@
+import type { ComponentMeta } from './meta.types';
 import type { DialogComponentProps } from './dialog.types';
 
 export const dialogMeta = {
@@ -17,13 +18,6 @@ export const dialogMeta = {
   },
   events: ['onOpenChange', 'onClose'],
   slots: ['children', 'footer']
-} satisfies {
-  name: string;
-  category: string;
-  description: string;
-  props: Record<string, unknown>;
-  events: string[];
-  slots: string[];
-};
+} satisfies ComponentMeta;
 
 export type { DialogComponentProps };
