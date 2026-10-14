@@ -20,6 +20,9 @@ importers:
       eslint-plugin-svelte:
         specifier: ^2.46.0
         version: 2.46.1(eslint@9.39.5(jiti@2.7.0))(svelte@5.57.1(@typescript-eslint/types@8.71.1))
+      globals:
+        specifier: ^17.13.0
+        version: 17.13.0
       prettier:
         specifier: ^3.4.2
         version: 3.9.10
@@ -993,6 +996,10 @@ packages:
 
   globals@14.0.0:
     resolution: {integrity: sha512-oahGvuMGQlPw/ivIYBjVSrWAfWLBeku5tpPE2fOPLi+WHffIWbuh2tCjhyQhTBPMf5E9jDEH4FOmTYgYwbKwtQ==}
+    engines: {node: '>=18'}
+
+  globals@17.13.0:
+    resolution: {integrity: sha512-RwMTC61u7hrG3ZJMkZQOK4JLJrKS8QtoTii63EmWvFXHqycY9FObBJQCbsLxSO8kjKhWE5kV1GC+Vb1g3RI0Zg==}
     engines: {node: '>=18'}
 
   graceful-fs@4.2.11:
@@ -2176,6 +2183,8 @@ snapshots:
       is-glob: 4.0.3
 
   globals@14.0.0: {}
+
+  globals@17.13.0: {}
 
   graceful-fs@4.2.11: {}
 
