@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import '@web-queen/tokens/tokens.css';
   import { Button, Checkbox, initializeTheme, Input, Select, setTheme, Switch, Toast, showToast, validateValues } from '@web-queen/core';
+  import { resolve } from '$app/paths';
 
   let projectName = '';
   let ownerEmail = '';
@@ -88,7 +89,7 @@ if (Object.keys(errors).length) {
 <Toast />
 
 <main class="guide">
-  <a class="guide__back" href="/">← UI Library Docs</a>
+  <a class="guide__back" href={resolve('/')}>← UI Library Docs</a>
   <header class="guide__header">
     <div>
       <p class="guide__eyebrow">Patterns / Forms</p>

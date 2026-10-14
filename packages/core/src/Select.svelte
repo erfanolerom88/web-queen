@@ -68,7 +68,7 @@
         <option value="" disabled={required || value !== ''}>{placeholder}</option>
       {/if}
 
-      {#each selectOptions as option}
+      {#each selectOptions as option (option.value)}
         <option value={option.value} disabled={option.disabled ?? false}>{option.label}</option>
       {/each}
     </select>

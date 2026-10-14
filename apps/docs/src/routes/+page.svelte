@@ -25,6 +25,7 @@
     showToast
   } from '@web-queen/core';
   import { useGsap } from '@web-queen/motion';
+  import { resolve } from '$app/paths';
 
   let deleteDialogOpen = false;
   let lightTheme = false;
@@ -184,7 +185,7 @@
       </div>
     </section>
 
-    <a href="/form-validation" class="docs-link">
+    <a href={resolve('/form-validation')} class="docs-link">
       Form &amp; Validation guide
     </a>
 
