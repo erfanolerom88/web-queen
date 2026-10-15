@@ -1,5 +1,8 @@
 export { default as Button } from './Button.svelte';
 export type { ButtonProps, ButtonSize, ButtonType, ButtonVariant } from './button';
+export { default as Badge } from './Badge.svelte';
+export { meta as badgeMeta } from './Badge.meta';
+export type { BadgeProps, BadgeVariant } from './badge';
 export { default as Card } from './Card.svelte';
 export { default as Checkbox } from './Checkbox.svelte';
 export { default as Dialog } from './Dialog.svelte';

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import '@web-queen/tokens/tokens.css';
-  import { Button, Card, Checkbox, Dropdown, DropdownItem, DropdownTrigger, initializeTheme, Input, Select, setTheme, Switch, Textarea, Toast, showToast, validateValues } from '@web-queen/core';
+  import { Badge, Button, Card, Checkbox, Dropdown, DropdownItem, DropdownTrigger, initializeTheme, Input, Select, setTheme, Switch, Textarea, Toast, showToast, validateValues } from '@web-queen/core';
   import { useGsap } from '@web-queen/motion';
 
   let projectName = 'Web Queen playground';
@@ -214,6 +214,16 @@
     </fieldset>
 
     <fieldset class="settings-group">
+      <legend class="settings-group__title">Badge variants</legend>
+      <div class="badge-row">
+        <Badge variant="primary">Primary</Badge>
+        <Badge variant="secondary">Secondary</Badge>
+        <Badge variant="ghost">Ghost</Badge>
+        <Badge variant="danger">Danger</Badge>
+      </div>
+    </fieldset>
+
+    <fieldset class="settings-group">
       <legend class="settings-group__title">Project settings</legend>
       <Checkbox bind:checked={emailUpdates} label="Send me project updates by email" />
       <Switch bind:checked={previewEnabled} label="Enable private preview" />
@@ -349,5 +359,12 @@
     color: var(--color-text);
     font-size: var(--text-sm);
     font-weight: var(--weight-semibold);
+  }
+
+  .badge-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
   }
 </style>
