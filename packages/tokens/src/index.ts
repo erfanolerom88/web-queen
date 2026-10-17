@@ -15,7 +15,7 @@ export const colorThemes = {
     warning: 'oklch(78% 0.14 80)',
     danger: 'oklch(70% 0.16 20)',
     dangerHover: 'oklch(74% 0.16 20)',
-    dangerFg: 'oklch(98% 0.01 20)',
+    dangerFg: 'oklch(15% 0.02 20)',
     dangerFgAlt: 'oklch(15% 0.02 20)',
     shadowSm: '0 8px 18px rgba(7, 10, 18, 0.22)',
     shadowMd: '0 14px 28px rgba(7, 10, 18, 0.3)'
