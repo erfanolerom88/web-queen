@@ -66,6 +66,13 @@ export const sizes = {
   controlLg: '48px',
   fieldMax: '360px'
 } as const;
+/** Icon glyph sizes used by icon slots in Badge/Button. */
+export const icons = {
+  sm: '14px',
+  md: '16px',
+  lg: '18px'
+} as const;
+
 
 /** Border and focus-ring geometry shared by field-style controls. */
 export const borders = {
