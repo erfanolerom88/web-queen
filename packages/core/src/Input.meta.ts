@@ -7,18 +7,22 @@ export const meta = {
   description:
     'Token-driven text field with variants, sizes, validation states and motion presets.',
   props: {
-    variant: { type: 'InputVariant', default: 'default' },
-    size: { type: 'InputSize', default: 'md' },
-    status: { type: 'InputStatus', default: 'idle' },
+    variant: { type: 'enum', options: ['default', 'filled', 'ghost'], default: 'default' },
+    size: { type: 'enum', options: ['sm', 'md', 'lg'], default: 'md' },
+    status: { type: 'enum', options: ['idle', 'error', 'success'], default: 'idle' },
     label: { type: 'string' },
     hint: { type: 'string' },
     errorMessage: { type: 'string' },
     disabled: { type: 'boolean' },
     required: { type: 'boolean' },
-    type: { type: 'InputType' },
+    type: {
+      type: 'enum',
+      options: ['text', 'email', 'password', 'search', 'url', 'tel', 'number'],
+      default: 'text'
+    },
     placeholder: { type: 'string' },
     value: { type: 'string' },
-    animation: { type: 'InputAnimation' },
+    animation: { type: 'string' },
     fullWidth: { type: 'boolean' },
     error: { type: 'string', deprecated: 'use errorMessage' },
     helperText: { type: 'string', deprecated: 'use hint' }
